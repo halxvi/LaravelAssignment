@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/signup', 'SignupController');
+Route::resource('/login', 'LoginController');
+Route::resource('/main', 'MainController');

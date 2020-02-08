@@ -13,7 +13,7 @@ class CreateFacilitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('facilities', function (Blueprint $table) {
+        Schema::create('Facilities', function (Blueprint $table) {
             $table->bigIncrements('facilityid');
             $table->string('facilityname');
         });
@@ -26,6 +26,6 @@ class CreateFacilitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facilities');
+        Schema::dropIfExists('Facilities');
     }
 }
