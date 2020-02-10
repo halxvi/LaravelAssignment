@@ -10,7 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::resource('/signup', 'SignupController');
-Route::resource('/login', 'LoginController');
-Route::resource('/main', 'MainController');
+Route::get('/login', 'LoginController@index')->name('login');
+Route::post('/login/auth', 'LoginController@authenticate');
+Route::get('/signup', 'SignupController@index');
+Route::post('/signup/confirm', 'SignupController@confirm');
+Route::post('/signup/send', 'SignupController@send');
+Route::get('/main', 'MainController@index')->name('main');
+Route::get('/main/reserve', 'MainController@reserve');
+Route::get('/main/delete', 'MainController@delete');
+Route::get('/main/logout', 'MainController@logout');

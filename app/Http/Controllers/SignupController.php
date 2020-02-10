@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 
 class SignupController extends Controller
@@ -13,22 +15,28 @@ class SignupController extends Controller
         return view('/signup/signup');
     }
 
-    public function create(Request $request)
+    public function confirm(Request $request)
     {
         $name = $request->name;
         $password = $request->password;
         $email =  $request->email;
-        return view('/signup/create', compact('name', 'password', 'email'));
+        return view('/signup/confirm', compact('name', 'password', 'email'));
     }
 
-    public function store(Request $request)
+    public function send(Request $request)
     {
         $user = new User();
         $user->userid = 0;
-        $user->name = $request->name;
-        $user->password = $request->password;
+        $user->username = $request->name;
+        $user->password = Hash::make($request->password);
         $user->email = $request->email;
         $user->save();
-        return redirect('/main');
+
+        $cred = $request->only('email', 'password');
+        if (Auth::attempt($cred)) {
+            return redirect()->intended('main');
+        } else {
+            return redirect()->intended('login');
+        }
     }
 }
