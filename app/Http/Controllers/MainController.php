@@ -41,7 +41,7 @@ class MainController extends Controller
         $status = [];
         $facilities = Facility::all();
         for ($i = 0; $i < Facility::count(); $i++) {
-            $comparedFacilityId = $i + 1;
+            $comparedFacilityId = 2 + 10 * $i;
             for ($q = 0; $q < 7; $q++) {
                 if (Reservation::where('date', $weekYears[$q])->where('facilityid', $comparedFacilityId)->exists()) {
                     $reservationData = Reservation::where('date', $weekYears[$q])->where('facilityid', $comparedFacilityId)->get();
