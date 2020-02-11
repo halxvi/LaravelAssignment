@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SignupRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +16,10 @@ class SignupController extends Controller
         return view('/signup/signup');
     }
 
-    public function confirm(Request $request)
+    public function confirm(SignupRequest $request)
     {
-        $name = $request->name;
-        $password = $request->password;
-        $email =  $request->email;
-        return view('/signup/confirm', compact('name', 'password', 'email'));
+        $validatedRequest = $request->validated();
+        return view('/signup/confirm', $validatedRequest);
     }
 
     public function send(Request $request)
@@ -38,5 +37,10 @@ class SignupController extends Controller
         } else {
             return redirect()->intended('login');
         }
+    }
+
+    public function back()
+    {
+        return redirect('signup');
     }
 }

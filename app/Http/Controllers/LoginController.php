@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -12,15 +12,15 @@ class LoginController extends Controller
         return view('/login');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(LoginRequest $request)
     {
-        $cred = $request->only('email', 'password');
         if ($request->rememberMe) {
             $rememberFlag = true;
         } else {
             $rememberFlag = false;
         }
-        if (Auth::attempt($cred, $rememberFlag)) {
+        $validatedRequest = $request->validated();
+        if (Auth::attempt($validatedRequest, $rememberFlag)) {
             return redirect()->intended('main');
         } else {
             return redirect()->intended('login');

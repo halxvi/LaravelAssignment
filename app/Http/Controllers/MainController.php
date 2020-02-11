@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Facility;
 use App\Reservation;
 use Carbon\Carbon;
@@ -17,17 +16,21 @@ class MainController extends Controller
         $this->middleware('auth');
     }
 
-    function index()
+    function index(Request $request)
     {
-
-        $date = Carbon::now();
-        $dateNow = $date->format('Y/m/d');
+        if ($request->session()->has('date')) {
+            $date = Carbon::createMidnightDate($request->session()->get('date')->toDateTimeString(), 'Asia/Tokyo');
+        } else {
+            $date = Carbon::now('Asia/Tokyo');
+            $request->session()->put(['date' => $date]);
+        }
+        $dateNow = $date->format('Y-m-d');
         $weeks = [];
         $weekYears = [];
         $weeks[0] = $date->format('m/d');
         $weekYears[0] = $dateNow;
         for ($i = 1; $i < 7; $i++) {
-            $weeks[$i] = $date->addDay(1)->format('m/d');
+            $weeks[$i] = $date->addDay()->format('m/d');
             $weekYears[$i] = $date->format('Y/m/d');
         }
         $status = [];
@@ -70,8 +73,28 @@ class MainController extends Controller
         return redirect('main');
     }
 
+    function pagenate(Request $request)
+    {
+        $parm = $request->input('parm');
+        $date = Carbon::createMidnightDate($request->session()->get('date')->toDateTimeString(), 'Asia/Tokyo');
+        if ($parm == "nextWeek") {
+            $date->addWeek();
+        } elseif ($parm == "nextDay") {
+            $date->addDay();
+        } elseif ($parm == "previousWeek") {
+            $date->subWeek();
+        } elseif ($parm == "previousDay") {
+            $date->subDay();
+        } else {
+            $date = Carbon::createMidnightDate($parm, 'Asia/Tokyo');
+        }
+        $request->session()->put(['date' => $date]);
+        return redirect('main');
+    }
+
     function logout()
     {
+        session()->flush();
         Auth::logout();
         return redirect('login');
     }

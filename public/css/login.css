@@ -1,0 +1,17 @@
+.contentBorder{
+border: solid 2px lightblue;
+padding: 60px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexItem{
+    margin: 20px;
+}
