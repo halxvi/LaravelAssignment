@@ -19,10 +19,3 @@ input{
 .form{
     margin: 0;
 }
-
-.field-icon{
-    position: relative;
-    margin-right: 15px;
-    margin-left: -40px;
-    z-index: 2;
-}

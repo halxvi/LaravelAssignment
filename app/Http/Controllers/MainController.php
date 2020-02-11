@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Facility;
 use App\Reservation;
 use Carbon\Carbon;
@@ -19,10 +20,13 @@ class MainController extends Controller
     function index(Request $request)
     {
         if ($request->session()->has('date')) {
-            $date = Carbon::createMidnightDate($request->session()->get('date')->toDateTimeString(), 'Asia/Tokyo');
+            $date = Carbon::createFromTimestamp($request->session()->get('date'), 'Asia/Tokyo');
         } else {
             $date = Carbon::now('Asia/Tokyo');
-            $request->session()->put(['date' => $date]);
+            $date->hour = 00;
+            $date->minute = 00;
+            $date->second = 00;
+            $request->session()->put(['date' => $date->timestamp]);
         }
         $dateNow = $date->format('Y-m-d');
         $weeks = [];
@@ -33,6 +37,7 @@ class MainController extends Controller
             $weeks[$i] = $date->addDay()->format('m/d');
             $weekYears[$i] = $date->format('Y/m/d');
         }
+        $date->subweek();
         $status = [];
         $facilities = Facility::all();
         for ($i = 0; $i < Facility::count(); $i++) {
@@ -76,7 +81,7 @@ class MainController extends Controller
     function pagenate(Request $request)
     {
         $parm = $request->input('parm');
-        $date = Carbon::createMidnightDate($request->session()->get('date')->toDateTimeString(), 'Asia/Tokyo');
+        $date = new Carbon($request->session()->get('date'), 'Asia/Tokyo');
         if ($parm == "nextWeek") {
             $date->addWeek();
         } elseif ($parm == "nextDay") {
@@ -86,16 +91,16 @@ class MainController extends Controller
         } elseif ($parm == "previousDay") {
             $date->subDay();
         } else {
-            $date = Carbon::createMidnightDate($parm, 'Asia/Tokyo');
+            $date = new Carbon($parm, 'Asia/Tokyo');
         }
-        $request->session()->put(['date' => $date]);
+        $request->session()->put(['date' => $date->timestamp]);
         return redirect('main');
     }
 
     function logout()
     {
-        session()->flush();
         Auth::logout();
+        Session::flush();
         return redirect('login');
     }
 }

@@ -25,7 +25,7 @@ class SignupRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'password' => 'required|min:8|max:100',
         ];
     }
@@ -35,6 +35,8 @@ class SignupRequest extends FormRequest
         return [
             'name.required' => 'お名前を入力してください',
             'email.required' => 'メールアドレスを入力してください',
+            'email.unique' => 'メールアドレスが使われています
+            他のアドレスを入力してください',
             'password.required' => 'パスワードを入力してください',
             'password.max' => '100字以内で入力してください',
             'password.min' => '8字以上で入力してください'
