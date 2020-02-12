@@ -34,8 +34,8 @@
         <caption class="caption">予約可：○　予約済み：×　予約不可：-</caption>
         <thead>
         <th>施設名</th>
-        @foreach ($weeks as $week)
-        <th>{{$week}}</th>
+        @foreach ($monthDays as $monthDay)
+        <th>{{$monthDay}}</th>
         @endforeach
         </thead>
         @foreach ($facilities as $key => $facility)
@@ -45,9 +45,9 @@
                 @if($status[$key][$i] == "-")
                     <td>{{$status[$key][$i]}}</td>
                 @elseif($status[$key][$i] == "×")
-                    <td><a href="main/delete/?date={{$weekYears[$i]}}&facilityid={{$facility->facilityid}}">{{$status[$key][$i]}}</a></td>
+                    <td><a href="main/delete/?date={{$yearMonthDays[$i]}}&facilityid={{$facility->facilityid}}">{{$status[$key][$i]}}</a></td>
                 @else
-                    <td><a href="main/reserve/?date={{$weekYears[$i]}}&facilityid={{$facility->facilityid}}">{{$status[$key][$i]}}</a></td>
+                    <td><a href="main/reserve/?date={{$yearMonthDays[$i]}}&facilityid={{$facility->facilityid}}">{{$status[$key][$i]}}</a></td>
                 @endif
                 @endfor
             </tr>

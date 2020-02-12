@@ -29,13 +29,13 @@ class MainController extends Controller
             $request->session()->put(['date' => $date->timestamp]);
         }
         $dateNow = $date->format('Y-m-d');
-        $weeks = [];
-        $weekYears = [];
-        $weeks[0] = $date->format('m/d');
-        $weekYears[0] = $dateNow;
+        $monthDays = [];
+        $yearMonthDays = [];
+        $monthDays[0] = $date->format('m/d');
+        $yearMonthDays[0] = $dateNow;
         for ($i = 1; $i < 7; $i++) {
-            $weeks[$i] = $date->addDay()->format('m/d');
-            $weekYears[$i] = $date->format('Y/m/d');
+            $monthDays[$i] = $date->addDay()->format('m/d');
+            $yearMonthDays[$i] = $date->format('Y/m/d');
         }
         $date->subweek();
         $status = [];
@@ -43,8 +43,8 @@ class MainController extends Controller
         for ($i = 0; $i < Facility::count(); $i++) {
             $comparedFacilityId = 2 + 10 * $i;
             for ($q = 0; $q < 7; $q++) {
-                if (Reservation::where('date', $weekYears[$q])->where('facilityid', $comparedFacilityId)->exists()) {
-                    $reservationData = Reservation::where('date', $weekYears[$q])->where('facilityid', $comparedFacilityId)->get();
+                if (Reservation::where('date', $yearMonthDays[$q])->where('facilityid', $comparedFacilityId)->exists()) {
+                    $reservationData = Reservation::where('date', $yearMonthDays[$q])->where('facilityid', $comparedFacilityId)->get();
                     if ($reservationData[0]->userid == Auth::id()) {
                         $status[$i][$q] = "×";
                     } else {
@@ -55,7 +55,7 @@ class MainController extends Controller
                 }
             }
         }
-        return view('/main', compact('facilities', 'dateNow', 'weeks', 'weekYears', 'status'));
+        return view('/main', compact('facilities', 'dateNow', 'monthDays', 'yearMonthDays', 'status'));
     }
 
     function reserve(Request $request)

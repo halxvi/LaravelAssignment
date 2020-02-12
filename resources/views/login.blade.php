@@ -17,7 +17,7 @@
         <div class="row">
             <input type="password" name="password" placeholder="パスワード">
             <span class="field-icon">
-                <i toggle="password-field" class="mdi mdi-eye toggle-password"></i>
+                <i toggle="password-field" class="mdi mdi-eye-off toggle-password"></i>
             </span>
             @if($errors->first('password'))
                 <div class="alert alert-danger">{{$errors->first('password')}}</div>
