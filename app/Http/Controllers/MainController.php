@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Facility;
 use App\Reservation;
+use App\User;
 use Carbon\Carbon;
 
 class MainController extends Controller
@@ -18,6 +19,12 @@ class MainController extends Controller
     }
 
     function index(Request $request)
+    {
+        $api_token = User::where('userid', Auth::id())->get('api_token');
+        return view('/main', compact('api_token'));
+    }
+
+    function info(Request $request)
     {
         if ($request->session()->has('date')) {
             $date = Carbon::createFromTimestamp($request->session()->get('date'), 'Asia/Tokyo');
@@ -55,7 +62,8 @@ class MainController extends Controller
                 }
             }
         }
-        return view('/main', compact('facilities', 'dateNow', 'monthDays', 'yearMonthDays', 'status'));
+
+        return response()->json(compact('facilities', 'dateNow', 'monthDays', 'yearMonthDays', 'status'));
     }
 
     function reserve(Request $request)

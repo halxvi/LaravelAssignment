@@ -9,7 +9,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('/login');
+        return view('login');
     }
 
     public function authenticate(LoginRequest $request)
@@ -19,7 +19,9 @@ class LoginController extends Controller
         } else {
             $rememberFlag = false;
         }
+
         $validatedRequest = $request->validated();
+
         if (Auth::attempt($validatedRequest, $rememberFlag)) {
             return redirect()->intended('main');
         } else {

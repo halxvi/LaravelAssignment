@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignupRequest;
-use App\Mail\SampleNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use App\User;
 
 class SignupController extends Controller
@@ -31,6 +30,7 @@ class SignupController extends Controller
         $user->username = $request->name;
         $user->password = Hash::make($request->password);
         $user->email = $request->email;
+        $user->api_token = Str::random(80);
         $user->save();
 
         $cred = $request->only('email', 'password');
