@@ -12,6 +12,4 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/LoginForm');
-require('./components/SignupForm');
-require('./components/MainPage');
+require('./components/Main');

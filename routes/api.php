@@ -11,19 +11,10 @@
 |
 */
 
-//Route::get('/signup', 'SignupController@index')->name('signup');
-//Route::post('/login/authentication', 'LoginController@authenticate');
-
-// Route::post('/signup/confirm', 'SignupController@confirm');
-// Route::post('/signup/send', 'SignupController@send');
-// Route::get('/signup/back', 'SignupController@back');
-
-
-// Route::get('/main', 'MainController@index')->name('main');
-Route::middleware(['auth:api', 'web'])->group(function () {
-    Route::get('info', 'MainController@info');
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/top', 'MainController@index');
+    Route::get('/top/reserve', 'MainController@reserve');
+    Route::get('/top/delete', 'MainController@delete');
+    Route::get('/top/pagenate', 'MainController@pagenate');
+    Route::get('/logout', 'MainController@logout');
 });
-// Route::get('/main/reserve', 'MainController@reserve');
-// Route::get('/main/delete', 'MainController@delete');
-// Route::get('/main/pagenate', 'MainController@pagenate');
-// Route::get('/main/logout', 'MainController@logout');
