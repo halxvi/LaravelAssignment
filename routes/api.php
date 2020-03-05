@@ -12,9 +12,11 @@
 */
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/top', 'MainController@index');
-    Route::get('/top/reserve', 'MainController@reserve');
-    Route::get('/top/delete', 'MainController@delete');
-    Route::get('/top/pagenate', 'MainController@pagenate');
-    Route::get('/logout', 'MainController@logout');
+    Route::post('/top', 'MainController@index');
+    Route::post('/top/reserve', 'MainController@reserve');
+    Route::post('/top/delete', 'MainController@delete');
+    Route::post('/top/pagenate', 'MainController@pagenate');
 });
+
+Route::post('/login/auth', 'LoginController@authenticate');
+Route::post('/signup/send', 'SignupController@send');

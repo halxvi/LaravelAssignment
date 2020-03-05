@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 use App\User;
 
 class LoginController extends Controller
@@ -13,23 +14,16 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function authenticate(LoginRequest $request)
+    public function authenticate(Request $request)
     {
-        $validatedRequest = $request->validated();
-        $user = User::where('email', $validatedRequest->input('email'));
-        Cookie::queue('key', $user['api_token'], 30);
-        // if ($request->rememberMe) {
-        //     $rememberFlag = true;
-        // } else {
-        //     $rememberFlag = false;
-        // }
-
-        // $validatedRequest = $request->validated();
-
-        // if (Auth::attempt($validatedRequest, $rememberFlag)) {
-        //     return redirect()->intended('main');
-        // } else {
-        //     return redirect()->intended('login');
-        // }
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = User::where('email', $request->input('email'));
+            $userid = $user->get('userid');
+            $api_token = $user->get('api_token');
+            return [$userid, $api_token];
+        } else {
+            abort('422');
+        }
     }
 }

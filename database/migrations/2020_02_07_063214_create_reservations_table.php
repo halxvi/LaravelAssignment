@@ -15,10 +15,10 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('Reservations', function (Blueprint $table) {
             $table->bigincrements('id');
-            $table->unsignedBigInteger('userid');
-            $table->foreign('userid')->references('userid')->on('users');
+            $table->uuid('userid');
+            $table->foreign('userid')->references('userid')->on('Users');
             $table->unsignedBigInteger('facilityid');
-            $table->foreign('facilityid')->references('facilityid')->on('facilities');
+            $table->foreign('facilityid')->references('facilityid')->on('Facilities');
             $table->date('date');
             $table->timestamps();
         });

@@ -1,32 +1,81 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Top from './Top';
-import SignUp from './SignUpForm';
-import Login from './LoginForm';
+import SignUp from './form/SignUpForm';
+import Login from './form/LoginForm';
 import NotFound from './404';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: 1,
-            date: 'none',
+            login: false,
+            checkFetch: false,
+            userID: null,
+            date: this.getDateNow(),
             JSON: null,
-            token: 'NFvufgHBuu8BrDAKCzm3H9FdQoPbt4RZqH6VRtgpSzjwBgLssQ3Hcy6Yn4h6lhUSI6nb8pwJCGIJIy0Q',
+            token: null,
         };
+    }
+
+    getDateNow() {
+        var dt = new Date();
+        var y = dt.getFullYear();
+        var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+        var d = ("00" + dt.getDate()).slice(-2);
+        var result = y + "-" + m + "-" + d;
+        return result;
+    }
+
+    sendAuth(values) {
+        axios
+            .post("/api/login/auth", { 'email': values["email"], 'password': values["password"] })
+            .then(response => {
+                var userid = response.data[0][0].userid
+                var token = response.data[1][0].api_token
+                this.setState({
+                    login: true,
+                    userID: userid,
+                    token: token,
+                })
+                this.fetchIndex()
+            })
+            .catch((e) => {
+                console.log("error");
+            })
+    }
+
+    sendSignUp(values) {
+        axios
+            .post('/api/signup/send', { 'name': values["name"], 'email': values["email"], 'password': values["password"] })
+            .then(
+                response => {
+                    var userid = response.data[0][0].userid
+                    var token = response.data[1][0].api_token
+                    this.setState({
+                        login: true,
+                        userID: userid,
+                        token: token,
+                    })
+                    this.fetchIndex()
+                })
+            .catch((e) => {
+                console.log("error");
+            })
     }
 
     fetchIndex() {
         axios
-            .get(`/api/top?userID=${this.state.userID}&date=${this.state.date}&api_token=${this.state.token}`)
-            .then(response => {
-                this.setState({ JSON: JSON.stringify(response) })
-                this.setState({
-                    date: response.data.dateNow
+            .post('/api/top', { 'userID': this.state.userID, 'date': this.state.date, 'api_token': this.state.token })
+            .then(
+                response => {
+                    this.setState({
+                        JSON: JSON.stringify(response),
+                        date: response.data.dateNow
+                    })
                 })
-            })
             .catch((e) => {
                 console.log("error");
             })
@@ -36,8 +85,8 @@ class App extends Component {
         this.setState({ date: arg })
     }
 
-    componentDidMount() {
-        this.fetchIndex();
+    logout() {
+        this.setState({ logout: false, checkFetch: false })
     }
 
     render() {
@@ -45,19 +94,25 @@ class App extends Component {
             <Router>
                 <div>
                     <Switch>
-                        < Route path='/top' render={
-                            () => <Top
-                                userID={this.state.userID} JSON={this.state.JSON} date={this.state.date} Token={this.state.token}
-                                fetchIndex={() => this.fetchIndex()} setDate={(date) => this.setDate(date)}
-                                changeDate={(e) => this.setDate(e.target.value)}
-                            />
+                        < Route path='/top' render={() =>
+                            this.state.login ?
+                                <Top
+                                    userID={this.state.userID} JSON={this.state.JSON} date={this.state.date} token={this.state.token}
+                                    fetchIndex={() => this.fetchIndex()} setDate={(date) => this.setDate(date)}
+                                    logout={() => this.logout()}
+                                />
+                                : < Redirect to='/login' />
                         } />
-                        < Route path='/signup' component={SignUp} />
-                        < Route path='/login' component={Login} />
+                        < Route path='/signup' render={() =>
+                            this.state.login ? < Redirect to='/top' /> : <SignUp sendSignUp={(values) => this.sendSignUp(values)} />
+                        } />
+                        < Route path='/login' render={() =>
+                            this.state.login ? < Redirect to='/top' /> : < Login sendAuth={(values) => this.sendAuth(values)} />
+                        } />
                         < Route component={NotFound} />
                     </Switch>
                 </div>
-            </Router>
+            </Router >
         );
     }
 }

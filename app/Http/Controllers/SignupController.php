@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Exception;
 use App\User;
 
 class SignupController extends Controller
@@ -25,19 +26,25 @@ class SignupController extends Controller
 
     public function send(Request $request)
     {
-        $user = new User();
-        $user->userid = 0;
-        $user->username = $request->name;
-        $user->password = Hash::make($request->password);
-        $user->email = $request->email;
-        $user->api_token = Str::random(80);
-        $user->save();
+        try {
+            $user = new User();
+            $user->username = $request->name;
+            $user->password = Hash::make($request->password);
+            $user->email = $request->email;
+            $user->api_token = Str::random(80);
+            $user->save();
 
-        $cred = $request->only('email', 'password');
-        if (Auth::attempt($cred)) {
-            return redirect()->intended('main');
-        } else {
-            return redirect()->intended('login');
+            $credentials = $request->only('email', 'password');
+            if (Auth::attempt($credentials)) {
+                $user = User::where('email', $request->input('email'));
+                $userid = $user->get('userid');
+                $api_token = $user->get('api_token');
+                return [$userid, $api_token];
+            } else {
+                abort('422');
+            }
+        } catch (Exception $e) {
+            abort('500');
         }
     }
 

@@ -1,0 +1,25 @@
+.contentBorder{
+    display: flex;
+    border: solid 2px lightblue;
+    margin: 150px;
+    padding: 50px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.label{
+    margin: 10;
+}
+
+.form{
+    margin: 0;
+}
+
+.field-icon{
+    position: relative;
+    margin-right: 15px;
+    margin-left: -40px;
+    z-index: 2;
+}
+

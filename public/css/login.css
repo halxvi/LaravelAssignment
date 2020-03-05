@@ -1,28 +1,29 @@
-.contentBorder{
-    display: flex;
-    border: solid 2px lightblue;
-    margin: 150px;
-    padding: 60px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.contentBorder {
+  display: flex;
+  border: solid 2px lightblue;
+  margin: 150px;
+  padding: 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-input{
-    margin: 10;
+.row {
+  text-align: center;
 }
 
-.label{
-    margin: 10;
+.label {
+  margin: 10;
 }
 
-.form{
-    margin: 0;
+.form {
+  margin: 0;
 }
 
-.field-icon{
-    position: relative;
-    margin-right: 15px;
-    margin-left: -40px;
-    z-index: 2;
+.field-icon {
+  position: relative;
+  margin-right: 15px;
+  margin-left: -40px;
+  z-index: 2;
 }
+
