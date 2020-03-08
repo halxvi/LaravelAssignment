@@ -12,11 +12,12 @@ class App extends Component {
         super(props);
         this.state = {
             login: false,
-            checkFetch: false,
-            userID: null,
+            userID: undefined,
             date: this.getDateNow(),
-            JSON: null,
-            token: null,
+            JSON: undefined,
+            token: undefined,
+            login_alert: undefined,
+            signup_alert: undefined,
         };
     }
 
@@ -32,18 +33,23 @@ class App extends Component {
     sendAuth(values) {
         axios
             .post("/api/login/auth", { 'email': values["email"], 'password': values["password"] })
-            .then(response => {
-                var userid = response.data[0][0].userid
-                var token = response.data[1][0].api_token
-                this.setState({
-                    login: true,
-                    userID: userid,
-                    token: token,
+            .then(
+                response => {
+                    var userid = response.data[0][0].userid
+                    var token = response.data[1][0].api_token
+                    this.setState({
+                        login: true,
+                        userID: userid,
+                        token: token,
+                    })
+                    this.fetchIndex()
                 })
-                this.fetchIndex()
-            })
             .catch((e) => {
-                console.log("error");
+                if (e.response.status === 422) {
+                    this.setState({
+                        login_alert: "ログイン情報が間違っています",
+                    })
+                }
             })
     }
 
@@ -62,7 +68,11 @@ class App extends Component {
                     this.fetchIndex()
                 })
             .catch((e) => {
-                console.log("error");
+                if (e.response.status === 500) {
+                    this.setState({
+                        signup_alert: "既にメールアドレスが使われています",
+                    })
+                }
             })
     }
 
@@ -86,7 +96,7 @@ class App extends Component {
     }
 
     logout() {
-        this.setState({ logout: false, checkFetch: false })
+        this.setState({ logout: false })
     }
 
     render() {
@@ -96,18 +106,30 @@ class App extends Component {
                     <Switch>
                         < Route path='/top' render={() =>
                             this.state.login ?
-                                <Top
-                                    userID={this.state.userID} JSON={this.state.JSON} date={this.state.date} token={this.state.token}
-                                    fetchIndex={() => this.fetchIndex()} setDate={(date) => this.setDate(date)}
+                                < Top
+                                    userID={this.state.userID}
+                                    JSON={this.state.JSON}
+                                    date={this.state.date}
+                                    token={this.state.token}
+                                    fetchIndex={() => this.fetchIndex()}
+                                    setDate={(date) => this.setDate(date)}
                                     logout={() => this.logout()}
                                 />
                                 : < Redirect to='/login' />
                         } />
                         < Route path='/signup' render={() =>
-                            this.state.login ? < Redirect to='/top' /> : <SignUp sendSignUp={(values) => this.sendSignUp(values)} />
+                            this.state.login ?
+                                < Redirect to='/top' />
+                                : < SignUp
+                                    sendSignUp={(values) => this.sendSignUp(values)}
+                                    alert={this.state.signup_alert} />
                         } />
                         < Route path='/login' render={() =>
-                            this.state.login ? < Redirect to='/top' /> : < Login sendAuth={(values) => this.sendAuth(values)} />
+                            this.state.login ?
+                                < Redirect to='/top' />
+                                : < Login
+                                    sendAuth={(values) => this.sendAuth(values)}
+                                    alert={this.state.login_alert} />
                         } />
                         < Route component={NotFound} />
                     </Switch>
@@ -119,5 +141,5 @@ class App extends Component {
 
 ReactDOM.render((
     <App />
-), document.getElementById('contents')
+), document.getElementById('app')
 );

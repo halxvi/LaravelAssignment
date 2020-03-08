@@ -48,6 +48,7 @@ class MainController extends Controller
             }
             return response()->json(compact('facilities', 'dateNow', 'monthDays', 'yearMonthDays', 'status'));
         } catch (Exception $e) {
+            report($e);
             abort('500');
         }
     }
@@ -62,6 +63,7 @@ class MainController extends Controller
             $reservation->date = $request->input('date');
             $reservation->save();
         } catch (Exception $e) {
+            report($e);
             abort('500');
         }
     }
@@ -74,6 +76,7 @@ class MainController extends Controller
             $facilityid = $request->input('facilityid');
             $reservation::where('date', $date)->where('facilityid', $facilityid)->delete();
         } catch (Exception $e) {
+            report($e);
             abort('500');
         }
     }
@@ -94,6 +97,7 @@ class MainController extends Controller
             $date = $date->format('Y-m-d');
             return $date;
         } catch (Exception $e) {
+            report($e);
             abort('500');
         }
     }

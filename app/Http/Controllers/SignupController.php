@@ -33,18 +33,18 @@ class SignupController extends Controller
             $user->email = $request->email;
             $user->api_token = Str::random(80);
             $user->save();
-
-            $credentials = $request->only('email', 'password');
-            if (Auth::attempt($credentials)) {
-                $user = User::where('email', $request->input('email'));
-                $userid = $user->get('userid');
-                $api_token = $user->get('api_token');
-                return [$userid, $api_token];
-            } else {
-                abort('422');
-            }
         } catch (Exception $e) {
+            report($e);
             abort('500');
+        }
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = User::where('email', $request->input('email'));
+            $userid = $user->get('userid');
+            $api_token = $user->get('api_token');
+            return [$userid, $api_token];
+        } else {
+            abort('422');
         }
     }
 

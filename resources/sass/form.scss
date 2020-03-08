@@ -1,0 +1,52 @@
+.alert {
+    display: inline;
+    padding: 0.3rem;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__alert {
+        text-align: center;
+    }
+
+    &__border {
+        border: solid 0.2rem lightblue;
+        padding: 8%;
+        margin: 6%;
+    }
+}
+
+.form {
+    text-align: center;
+
+    &__p {
+        margin: 4%;
+    }
+
+    &__field-icon {
+        position: relative;
+        top: 2.7rem;
+        left: 5.2rem;
+        z-index: 2;
+    }
+
+    &__input {
+        margin: 4%;
+    }
+
+    &__btn {
+        margin: 5%;
+    }
+
+    &__submit {
+        text-align: center;
+    }
+}
+
+.link {
+    text-align: center;
+}

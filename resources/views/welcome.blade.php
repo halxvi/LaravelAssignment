@@ -1,5 +1,5 @@
 @extends('layout')
 @section('content')
-<div id="contents"></div>
+<div id="app">
 <script src="{{mix('js/app.js')}}"></script>
 @stop

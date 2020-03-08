@@ -1,32 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-import "../../../public/css/main.css";
-
 
 function Top(props) {
-    let json = JSON.parse(props.JSON);
+    if (props.JSON) {
+        var json = JSON.parse(props.JSON);
+    }
     return (
         < div className="content" >
             <div className="buttonLayout">
-                <div className="pagenateButton">
+                <div className="buttonLayout__pagenateButton">
                     <a onClick={e => pagenate(props, "previousWeek", props.date, props.token)}>前週</a>
                 </div>
-                <div className="pagenateButton">
+                <div className="buttonLayout__pagenateButton">
                     <a onClick={e => pagenate(props, "previousDay", props.date, props.token)}>前日</a>
                 </div>
-                <div className="pagenateButton">
+                <div className="buttonLayout__pagenateButton">
                     <input type="date" id="dateInput" name="parm" value={props.date} onChange={(e) => {
                         pagenate(props, "userChangeInput", e.target.value, props.token)
                     }
                     }></input>
                 </div>
-                <div className="pagenateButton">
+                <div className="buttonLayout__pagenateButton">
                     <a onClick={e => pagenate(props, "nextDay", props.date, props.token)}>翌日</a>
                 </div>
-                <div className="pagenateButton">
+                <div className="buttonLayout__pagenateButton">
                     <a onClick={e => pagenate(props, "nextWeek", props.date, props.token)}>翌週</a>
                 </div>
-                <div className="logout">
+                <div className="buttonLayout__logout">
                     <a href="/login" onClick={e => props.logout()}>ログアウト</a>
                 </div>
             </div>
@@ -34,12 +34,12 @@ function Top(props) {
                 json &&
                 <div className="responsive-table">
                     <table className="table">
-                        <caption className="caption">予約可：○　予約済み：×　予約不可：-</caption>
+                        <caption className="table__caption">予約可：○　予約済み：×　予約不可：-</caption>
                         <thead>
                             <tr>
                                 <th>施設名</th>
                                 {json.data.monthDays.map((monthDay) =>
-                                    <th key={monthDay.toString()} className="th_centering">{monthDay}</th>
+                                    <th key={monthDay.toString()} className="table__th--center">{monthDay}</th>
                                 )}
                             </tr>
                         </thead>
@@ -65,13 +65,13 @@ function Top(props) {
 
 function checkStatus(props, mark, date, facilityID, userID, token, key) {
     if (mark === "-") {
-        return <td key={key.toString()}>{mark}</td>;
+        return <td key={key.toString()} className="table__td">{mark}</td>;
     }
     else if (mark === "×") {
-        return <td key={key.toString()}><a onClick={e => deleteReservation(props, date, facilityID, token)}>{mark}</a></td>
+        return <td key={key.toString()} className="table__td"><a className="table__a--xlarge" onClick={e => deleteReservation(props, date, facilityID, token)}>{mark}</a></td>
     }
     else {
-        return <td key={key.toString()}><a onClick={e => addReservation(props, date, facilityID, userID, token)}>{mark}</a></td>
+        return <td key={key.toString()} className="table__td"><a className="table__a--xlarge" onClick={e => addReservation(props, date, facilityID, userID, token)}>{mark}</a></td>
     }
 }
 

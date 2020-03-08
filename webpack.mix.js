@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 
 mix.react('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/main.scss', 'public/css')
+    .sass('resources/sass/top.scss', 'public/css')
     .sass('resources/sass/signup.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css')
     .js('resources/js/passwordToggle.js', 'public/js')

@@ -1,29 +1,34 @@
-.contentBorder {
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.content__border {
   display: flex;
   border: solid 2px lightblue;
-  margin: 150px;
-  padding: 60px;
+  margin: 9rem;
+  padding: 3rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.row {
-  text-align: center;
-}
-
-.label {
-  margin: 10;
-}
-
-.form {
-  margin: 0;
-}
-
-.field-icon {
+.form__field-icon {
   position: relative;
-  margin-right: 15px;
-  margin-left: -40px;
+  margin-right: 1rem;
+  margin-left: -2.5rem;
   z-index: 2;
+}
+
+.form__input {
+  margin: 1rem;
+}
+
+.form__btn {
+  margin: 1rem;
+}
+
+.form__submit {
+  text-align: center;
 }
 

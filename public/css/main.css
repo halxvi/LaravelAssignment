@@ -41,11 +41,11 @@ td > a {
   font-size: x-large;
 }
 
-input[type="date"]::-webkit-inner-spin-button {
+input[type=date]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-input[type="date"]::-webkit-clear-button {
+input[type=date]::-webkit-clear-button {
   -webkit-appearance: none;
 }
 
