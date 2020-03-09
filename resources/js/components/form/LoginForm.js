@@ -32,10 +32,12 @@ function LoginForm(props) {
                                     </div>) : null}
                             </div>
                             <div className="form__password">
-                                <span className="form__field-icon">
-                                    <i toggle="password-field" className="mdi mdi-eye-off form__toggle-password" onClick={(e) => { PasswordToggle(e) }}></i>
-                                </span>
-                                <Field type="password" name="password" className="form__input" placeholder="パスワード" />
+                                <div className="form__password-part">
+                                    <Field type="password" name="password" className="form__input" placeholder="パスワード" />
+                                    <span className="form__field-icon">
+                                        <i toggle="password-field" className="mdi mdi-eye-off form__toggle-password" onClick={(e) => { PasswordToggle(e) }}></i>
+                                    </span>
+                                </div>
                                 {errors.password && touched.password ?
                                     (<div className="form__alert">
                                         <span className="alert alert-danger">{errors.password}</span>

@@ -41,15 +41,17 @@ function SignUpForm(props) {
                                     </div>) : null}
                             </div>
                             <div className="form__password">
-                                <span className="form__field-icon">
-                                    <i toggle="password-field" className="mdi mdi-eye-off form__toggle-password" onClick={(e) => { PasswordToggle(e) }}></i>
-                                </span>
-                                <Field type="password" name="password" className="form__input" placeholder="パスワード" />
-                                <p className="form__p"><small>パスワードは8字以上30字以内</small></p>
+                                <div className="form__password-part">
+                                    <Field type="password" name="password" className="form__input" placeholder="パスワード" />
+                                    <span className="form__field-icon">
+                                        <i toggle="password-field" className="mdi mdi-eye-off form__toggle-password" onClick={(e) => { PasswordToggle(e) }}></i>
+                                    </span>
+                                </div>
                                 {errors.password && touched.password ?
                                     (<div className="form__alert">
                                         <span className="alert alert-danger">{errors.password}</span>
                                     </div>) : null}
+                                <p className="form__p"><small>パスワードは8字以上30字以内</small></p>
                             </div>
                             <div className="form__submit">
                                 <input type="submit" className="form__btn" value="登録" />
