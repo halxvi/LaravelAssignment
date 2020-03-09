@@ -30,14 +30,15 @@ class MainController extends Controller
             }
             $status = [];
             $facilities = Facility::all();
+            $facilitiesID = Facility::get('facilityid')->all();
             $reservations = Reservation::all();
             for ($i = 0; $i < Facility::count(); $i++) {
                 for ($q = 0; $q < 7; $q++) {
-                    if ($reservations->where('facilityid', $i + 1)->where('date', $yearMonthDays[$q])->count() == 0) {
+                    if ($reservations->where('facilityid', $facilitiesID[$i]->facilityid)->where('date', $yearMonthDays[$q])->count() == 0) {
                         $status[$i][$q] = "○";
                     } else {
                         $reservationData = 0;
-                        $reservationData = $reservations->where('facilityid', $i + 1)->where('date', $yearMonthDays[$q])->where('userid', $request->input('userID'))->count();
+                        $reservationData = $reservations->where('facilityid', $facilitiesID[$i]->facilityid)->where('date', $yearMonthDays[$q])->where('userid', $request->input('userID'))->count();
                         if ($reservationData == 0) {
                             $status[$i][$q] = "-";
                         } else {
@@ -46,7 +47,7 @@ class MainController extends Controller
                     }
                 }
             }
-            return response()->json(compact('facilities', 'dateNow', 'monthDays', 'yearMonthDays', 'status'));
+            return response()->json(compact('facilities', 'dateNow', 'monthDays', 'yearMonthDays', 'status', 'facilitiesID'));
         } catch (Exception $e) {
             report($e);
             abort('500');

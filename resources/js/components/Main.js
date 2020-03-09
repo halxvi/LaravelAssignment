@@ -85,6 +85,7 @@ class App extends Component {
                         JSON: JSON.stringify(response),
                         date: response.data.dateNow
                     })
+                    console.log(response)
                 })
             .catch((e) => {
                 console.log("error");
