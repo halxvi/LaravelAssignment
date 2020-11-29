@@ -1,4 +1,4 @@
-let yup = require("yup");
+import * as yup from "yup";
 
 const FormikValidation = yup.object().shape({
     email: yup
