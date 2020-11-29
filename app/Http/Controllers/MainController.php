@@ -25,7 +25,9 @@ class MainController extends Controller
             $monthDays[0] = $date->format('m/d');
             $yearMonthDays[0] = $dateNow;
             for ($i = 1; $i < 7; $i++) {
-                $monthDays[$i] = $date->addDay()->format('m/d');
+                $monthDays[$i] = $date
+                ->addDay()
+                ->format('m/d');
                 $yearMonthDays[$i] = $date->format('Y-m-d');
             }
             $status = [];
@@ -38,7 +40,11 @@ class MainController extends Controller
                         $status[$i][$q] = "○";
                     } else {
                         $reservationData = 0;
-                        $reservationData = $reservations->where('facilityid', $facilitiesID[$i]->facilityid)->where('date', $yearMonthDays[$q])->where('userid', $request->input('userID'))->count();
+                        $reservationData = $reservations
+                        ->where('facilityid', $facilitiesID[$i]->facilityid)
+                        ->where('date', $yearMonthDays[$q])
+                        ->where('userid', $request->input('userId'))
+                        ->count();
                         if ($reservationData == 0) {
                             $status[$i][$q] = "-";
                         } else {
@@ -75,7 +81,9 @@ class MainController extends Controller
             $reservation = new Reservation();
             $date = $request->input('date');
             $facilityid = $request->input('facilityid');
-            $reservation::where('date', $date)->where('facilityid', $facilityid)->delete();
+            $reservation::where('date', $date)
+            ->where('facilityid', $facilityid)
+            ->delete();
         } catch (Exception $e) {
             report($e);
             abort('500');

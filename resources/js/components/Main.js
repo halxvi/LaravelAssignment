@@ -12,26 +12,30 @@ import SignUp from './form/SignupForm'
 import Login from './form/LoginForm'
 import NotFound from './404'
 
-class App extends Component {
+class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      login: false,
-      userID: '',
-      date: this.getDateNow(),
-      JSON: '',
-      token: '',
+      isLogin: false,
+      userId: '',
+      date: '',
+      json: '',
+      api_token: '',
       login_alert: '',
       signup_alert: '',
     }
   }
 
-  getDateNow() {
-    var dt = new Date()
-    var y = dt.getFullYear()
-    var m = ('00' + (dt.getMonth() + 1)).slice(-2)
-    var d = ('00' + dt.getDate()).slice(-2)
-    var result = y + '-' + m + '-' + d
+  componentDidMount() {
+    this.setState({ date: this.calculateDateNow() })
+  }
+
+  calculateDateNow() {
+    let date = new Date()
+    let y = date.getFullYear()
+    let m = ('00' + (date.getMonth() + 1)).slice(-2)
+    let d = ('00' + date.getDate()).slice(-2)
+    let result = y + '-' + m + '-' + d
     return result
   }
 
@@ -42,12 +46,12 @@ class App extends Component {
         password: values['password'],
       })
       .then((response) => {
-        var userid = response.data[0][0].userid
-        var token = response.data[1][0].api_token
+        let userId = response.data[0][0].userid
+        let api_token = response.data[1][0].api_token
         this.setState({
-          login: true,
-          userID: userid,
-          token: token,
+          isLogin: true,
+          userId,
+          api_token,
         })
         this.fetchIndex()
       })
@@ -68,12 +72,12 @@ class App extends Component {
         password: values['password'],
       })
       .then((response) => {
-        var userid = response.data[0][0].userid
-        var token = response.data[1][0].api_token
+        let userId = response.data[0][0].userid
+        let api_token = response.data[1][0].api_token
         this.setState({
-          login: true,
-          userID: userid,
-          token: token,
+          isLogin: true,
+          userId,
+          api_token,
         })
         this.fetchIndex()
       })
@@ -87,45 +91,57 @@ class App extends Component {
   }
 
   fetchIndex() {
+    const { state } = this
+    const { date, api_token, userId } = state
     axios
       .post('/api/top', {
-        userID: this.state.userID,
-        date: this.state.date,
-        api_token: this.state.token,
+        userId,
+        date,
+        api_token,
       })
       .then((response) => {
         this.setState({
-          JSON: JSON.stringify(response),
+          json: JSON.stringify(response),
           date: response.data.dateNow,
         })
-        console.log(response)
       })
-      .catch((e) => {
-        console.log('error:' + e)
+      .catch(() => {
+        console.log('error')
       })
   }
 
-  setDate(arg) {
-    this.setState({ date: arg })
+  setDate(date) {
+    this.setState({ date })
   }
 
   logout() {
-    this.setState({ logout: false })
+    this.setState({ isLogin: false })
   }
 
   render() {
+    const { state } = this
+    const {
+      isLogin,
+      json,
+      date,
+      api_token,
+      userId,
+      signup_alert,
+      login_alert,
+    } = state
+
     return (
       <Router>
         <Switch>
           <Route
             path="/top"
             render={() =>
-              this.state.login ? (
+              isLogin ? (
                 <Top
-                  userID={this.state.userID}
-                  JSON={this.state.JSON}
-                  date={this.state.date}
-                  token={this.state.token}
+                  userID={userId}
+                  nonParsedJson={json}
+                  date={date}
+                  api_token={api_token}
                   fetchIndex={() => this.fetchIndex()}
                   setDate={(date) => this.setDate(date)}
                   logout={() => this.logout()}
@@ -138,12 +154,12 @@ class App extends Component {
           <Route
             path="/signup"
             render={() =>
-              this.state.login ? (
+              isLogin ? (
                 <Redirect to="/top" />
               ) : (
                 <SignUp
                   sendSignUp={(values) => this.sendSignUp(values)}
-                  alert={this.state.signup_alert}
+                  alert={signup_alert}
                 />
               )
             }
@@ -151,12 +167,12 @@ class App extends Component {
           <Route
             path="/login"
             render={() =>
-              this.state.login ? (
+              isLogin ? (
                 <Redirect to="/top" />
               ) : (
                 <Login
                   sendAuth={(values) => this.sendAuth(values)}
-                  alert={this.state.login_alert}
+                  alert={login_alert}
                 />
               )
             }
@@ -168,4 +184,4 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(<Main />, document.getElementById('app'))
