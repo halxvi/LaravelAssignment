@@ -17,7 +17,7 @@ class Main extends Component {
     super(props)
     this.state = {
       isLogin: false,
-      userId: '',
+      userID: '',
       date: '',
       json: '',
       api_token: '',
@@ -46,11 +46,11 @@ class Main extends Component {
         password: values['password'],
       })
       .then((response) => {
-        let userId = response.data[0][0].userid
+        let userID = response.data[0][0].userid
         let api_token = response.data[1][0].api_token
         this.setState({
           isLogin: true,
-          userId,
+          userID,
           api_token,
         })
         this.fetchIndex()
@@ -72,11 +72,11 @@ class Main extends Component {
         password: values['password'],
       })
       .then((response) => {
-        let userId = response.data[0][0].userid
+        let userID = response.data[0][0].userid
         let api_token = response.data[1][0].api_token
         this.setState({
           isLogin: true,
-          userId,
+          userID,
           api_token,
         })
         this.fetchIndex()
@@ -92,10 +92,10 @@ class Main extends Component {
 
   fetchIndex() {
     const { state } = this
-    const { date, api_token, userId } = state
+    const { date, api_token, userID } = state
     axios
       .post('/api/top', {
-        userId,
+        userID,
         date,
         api_token,
       })
@@ -125,7 +125,7 @@ class Main extends Component {
       json,
       date,
       api_token,
-      userId,
+      userID,
       signup_alert,
       login_alert,
     } = state
@@ -138,7 +138,7 @@ class Main extends Component {
             render={() =>
               isLogin ? (
                 <Top
-                  userID={userId}
+                  userID={userID}
                   nonParsedJson={json}
                   date={date}
                   api_token={api_token}

@@ -43,7 +43,7 @@ class MainController extends Controller
                         $reservationData = $reservations
                         ->where('facilityid', $facilitiesID[$i]->facilityid)
                         ->where('date', $yearMonthDays[$q])
-                        ->where('userid', $request->input('userId'))
+                        ->where('userid', $request->input('userID'))
                         ->count();
                         if ($reservationData == 0) {
                             $status[$i][$q] = "-";
