@@ -1,8 +1,8 @@
 import React from 'react'
 import { Form, Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
-import PasswordToggle from '../../passwordToggle'
-import FormikValidation from './SignupFormValidation'
+import PasswordToggle from '../../PasswordToggle'
+import formikValidation from './SignupFormValidation'
 
 const initialValues = {
   name: '',
@@ -11,7 +11,7 @@ const initialValues = {
 }
 
 function SignUpForm(props) {
-  const { alert } = props
+  const { alert, sendSignUp } = props
   return (
     <div className="content">
       {alert && (
@@ -20,9 +20,9 @@ function SignUpForm(props) {
       <div className="content__border">
         <Formik
           initialValues={initialValues}
-          validationSchema={FormikValidation}
+          validationSchema={formikValidation}
           onSubmit={(values) => {
-            props.sendSignUp(values)
+            sendSignUp(values)
           }}
         >
           {({ errors, touched }) => (
