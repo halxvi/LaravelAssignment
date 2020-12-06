@@ -1,53 +1,53 @@
 .content {
-    margin: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
 .buttonLayout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: x-large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
 
-    &__pagenateButton {
-        display: inline-block;
-        margin: auto;
-        padding: auto;
-    }
+  &__pagenateButton {
+    display: inline-block;
+    margin: auto;
+    padding: auto;
+  }
 
-    &__logout {
-        display: inline-block;
-        margin-left: auto;
-        font-size: medium;
-    }
-
+  &__logout {
+    display: inline-block;
+    margin-left: auto;
+    font-size: medium;
+  }
 }
 
 .table {
-    &__caption {
-        font-size: large;
-    }
+  &__caption {
+    font-size: large;
+  }
 
-    &__th {
-        &--center {
-            text-align: center;
-        }
+  &__th {
+    &--center {
+      text-align: center;
     }
+  }
 
-    &__td {
-        text-align: center;
-    }
+  &__td {
+    text-align: center;
+  }
 
-    &__a {
-        &--xlarge {
-            font-size: x-large;
-        }
+  &__a {
+    &--xlarge {
+      font-size: x-large;
     }
+  }
 }
 
-input[type=date]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+input[type='date']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
-input[type=date]::-webkit-clear-button {
-    -webkit-appearance: none;
+input[type='date']::-webkit-clear-button {
+  -webkit-appearance: none;
 }

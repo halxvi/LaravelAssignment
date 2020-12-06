@@ -1,1 +1,33 @@
-body{margin:0;padding:0}.content__border{display:flex;border:2px solid #add8e6;margin:9rem;padding:3rem;flex-direction:column;justify-content:center;align-items:center}.form__field-icon{position:relative;margin-right:1rem;margin-left:-2.5rem;z-index:2}.form__btn,.form__input{margin:1rem}.form__submit{text-align:center}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.content__border {
+  display: flex;
+  border: solid 2px lightblue;
+  margin: 9rem;
+  padding: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.form__field-icon {
+  position: relative;
+  margin-right: 1rem;
+  margin-left: -2.5rem;
+  z-index: 2;
+}
+
+.form__input {
+  margin: 1rem;
+}
+
+.form__btn {
+  margin: 1rem;
+}
+
+.form__submit {
+  text-align: center;
+}
+

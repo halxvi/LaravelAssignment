@@ -1,40 +1,37 @@
-$margin-init:0;
-$padding-init:0;
+$margin-init: 0;
+$padding-init: 0;
 
 body {
-    margin: $margin-init;
-    padding: $padding-init;
+  margin: $margin-init;
+  padding: $padding-init;
 }
-
 
 .content__border {
-    display: flex;
-    border: solid 2px lightblue;
-    margin: 9rem;
-    padding: 3rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  border: solid 2px lightblue;
+  margin: 9rem;
+  padding: 3rem;
+  justify-content: center;
+  align-items: center;
 }
 
-
 .form {
-    &__field-icon {
-        position: relative;
-        margin-right: 1rem;
-        margin-left: -2.5rem;
-        z-index: 2;
-    }
+  &__field-icon {
+    position: relative;
+    margin-right: 1rem;
+    margin-left: -2.5rem;
+    z-index: 2;
+  }
 
-    &__input {
-        margin: 1rem;
-    }
+  &__input {
+    margin: 1rem;
+  }
 
-    &__btn {
-        margin: 1rem;
-    }
+  &__btn {
+    margin: 1rem;
+  }
 
-    &__submit {
-        text-align: center;
-    }
+  &__submit {
+    text-align: center;
+  }
 }
