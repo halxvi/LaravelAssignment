@@ -1,8 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-function page404() {
-    return (
-        <div>404</div>
-    );
+function Page404() {
+  return <div>404</div>
 }
-export default page404;
+export default Page404
